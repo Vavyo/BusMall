@@ -7,14 +7,14 @@ aside {
   background-color: antiquewhite;
   float: left;
   height: 100%;
-  width: 256px;
+  width: 300px;
 }
 
 #content {
   background-color: coral;
   float: right;
   height: 100%;
-  width: calc(100% - 256px);
+  width: calc(100% - 300px);
 }
 
 #images {
@@ -49,4 +49,7 @@ footer {
 }
 img {
   max-width: 18%;
+}
+li {
+  display: block;
 }

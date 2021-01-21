@@ -24,13 +24,21 @@ const productImages = [
 ];
 
 const allProducts = [];
+var randomProducts = [];
+var imageElements = document.getElementsByTagName("img");
+var totalClicks = 0;
+var sampleSize = 25;
+
+for (let i = 0; i < imageElements.length; i++) {
+  imageElements[i].addEventListener("click", productClick);
+}
 
 //populate all products
 for (let i = 0; i < productImages.length; i++) {
   const image = productImages[i];
   const path = "img/assets/" + image;
   const name = image.split(".")[0];
-  allProducts.push(new Product(name, path));
+  new Product(name, path);
 }
 
 function Product(name, imgPath) {
@@ -38,9 +46,7 @@ function Product(name, imgPath) {
   this.img = imgPath;
   this.timesShown = 0;
   this.timesClicked = 0;
-  this.element = document.createElement("img");
-  this.element.src = imgPath;
-  this.element.addEventListener("click", productClick);
+  allProducts.push(this);
 }
 
 function getRandomInt(n) {
@@ -66,15 +72,40 @@ function getRandomProducts(n) {
 }
 
 function populateProducts() {
-  const randomProducts = getRandomProducts(3);
-  const imageSection = document.getElementById("images");
-  imageSection.innerHTML = "";
-  for (const product of randomProducts) {
-    imageSection.appendChild(product.element);
-    product.timesShown++;
+  randomProducts = getRandomProducts(3);
+  for (let i = 0; i < randomProducts.length; i++) {
+    imageElements[i].src = randomProducts[i].img;
+    randomProducts[i].timesShown++;
   }
 }
 
 function productClick(event) {
-  console.log(event);
+  if (totalClicks < sampleSize) {
+    totalClicks++;
+    console.log(totalClicks);
+    randomProducts[event.srcElement.id].timesClicked++;
+    populateProducts();
+  } else {
+    for (let i = 0; i < imageElements.length; i++) {
+      imageElements[i].removeEventListener("click", productClick);
+    }
+  }
+}
+
+function showResults() {
+  var results = document.getElementById("results");
+  results.innerHTML = "";
+  for (let i = 0; i < allProducts.length; i++) {
+    var node = document.createElement("li");
+    var textnode = document.createTextNode(
+      allProducts[i].name +
+        " had " +
+        allProducts[i].timesClicked +
+        " votes, and was seen " +
+        allProducts[i].timesShown +
+        " times."
+    );
+    node.appendChild(textnode);
+    results.appendChild(node);
+  }
 }
