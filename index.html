@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/index.css" />
     <script src="js/index.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </head>
 
   <body onload="populateProducts()">
     <header>Title</header>
     <main>
       <aside>
-        ,<button onclick="showResults()">View Results</button>
+        ,<button id="showResults" onclick="showResults()">View Results</button>
         <ul id="results"></ul>
       </aside>
       <section id="content">
@@ -24,19 +25,9 @@
           <img id="1" />
           <img id="2" />
         </section>
-        <p id="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          venenatis tortor quis lacinia viverra. Nunc elementum augue eget ante
-          vulputate posuere. Fusce volutpat orci massa, ullamcorper iaculis
-          purus blandit sit amet. Donec erat libero, viverra venenatis
-          sollicitudin ut, facilisis a nisl. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Cras sem justo, finibus ac volutpat
-          hendrerit, placerat eget erat. Morbi orci est, auctor quis blandit
-          vel, ultricies quis velit. Sed porta accumsan velit, vitae aliquet
-          lacus. Ut interdum posuere massa, sed convallis tellus sagittis id.
-          Nulla dictum ut libero volutpat fermentum. In sed erat nec urna mollis
-          feugiat commodo vel ipsum.
-        </p>
+        <section id="description">
+          <canvas id="chart"></canvas>
+        </section>
       </section>
     </main>
     <footer>Footer</footer>
