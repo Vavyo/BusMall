@@ -95,7 +95,7 @@ function productClick(event) {
     showResultsButton();
   }
   localStorage.setItem("products", JSON.stringify(allProducts));
-  localStorage.setItem("totalClicks", totalClicks);
+  // localStorage.setItem("totalClicks", totalClicks);
 }
 
 function showResultsButton() {
@@ -166,12 +166,12 @@ function setup() {
   const productsJSON = localStorage.getItem("products");
   if (productsJSON) {
     allProducts = JSON.parse(productsJSON);
-    totalClicks = Number.parseInt(localStorage.getItem("totalClicks"));
+    // totalClicks = Number.parseInt(localStorage.getItem("totalClicks"));
   } else {
     populateProducts();
   }
   refreshShownProducts();
-  if (totalClicks >= sampleSize) {
-    showResultsButton();
-  }
+  // if (totalClicks >= sampleSize) {
+  //   showResultsButton();
+  // }
 }
