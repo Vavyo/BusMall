@@ -23,7 +23,7 @@ const productImages = [
   "wine-glass.jpg",
 ];
 
-const allProducts = [];
+let allProducts = [];
 var currentProducts = [];
 var imageElements = document.getElementsByTagName("img");
 var totalClicks = 0;
@@ -34,11 +34,13 @@ for (let i = 0; i < imageElements.length; i++) {
 }
 
 //populate all products
-for (let i = 0; i < productImages.length; i++) {
-  const image = productImages[i];
-  const path = "img/assets/" + image;
-  const name = image.split(".")[0];
-  new Product(name, path);
+function populateProducts() {
+  for (let i = 0; i < productImages.length; i++) {
+    const image = productImages[i];
+    const path = "img/assets/" + image;
+    const name = image.split(".")[0];
+    allProducts.push(new Product(name, path));
+  }
 }
 
 function Product(name, imgPath) {
@@ -46,7 +48,6 @@ function Product(name, imgPath) {
   this.img = imgPath;
   this.timesShown = 0;
   this.timesClicked = 0;
-  allProducts.push(this);
 }
 
 function getRandomInt(n) {
@@ -76,7 +77,7 @@ function getRandomProducts(n) {
   return products;
 }
 
-function populateProducts() {
+function refreshShownProducts() {
   currentProducts = getRandomProducts(3);
   for (let i = 0; i < currentProducts.length; i++) {
     imageElements[i].src = currentProducts[i].img;
@@ -89,12 +90,18 @@ function productClick(event) {
     totalClicks++;
     console.log(totalClicks);
     currentProducts[event.srcElement.id].timesClicked++;
-    populateProducts();
+    refreshShownProducts();
   } else {
-    for (let i = 0; i < imageElements.length; i++) {
-      imageElements[i].removeEventListener("click", productClick);
-      document.getElementById("showResults").style.display = "block";
-    }
+    showResultsButton();
+  }
+  localStorage.setItem("products", JSON.stringify(allProducts));
+  localStorage.setItem("totalClicks", totalClicks);
+}
+
+function showResultsButton() {
+  for (let i = 0; i < imageElements.length; i++) {
+    imageElements[i].removeEventListener("click", productClick);
+    document.getElementById("showResults").style.display = "block";
   }
 }
 
@@ -153,4 +160,18 @@ function updateChart() {
     // Configuration options go here
     options: {},
   });
+}
+
+function setup() {
+  const productsJSON = localStorage.getItem("products");
+  if (productsJSON) {
+    allProducts = JSON.parse(productsJSON);
+    totalClicks = Number.parseInt(localStorage.getItem("totalClicks"));
+  } else {
+    populateProducts();
+  }
+  refreshShownProducts();
+  if (totalClicks >= sampleSize) {
+    showResultsButton();
+  }
 }
