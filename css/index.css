@@ -1,7 +1,52 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+aside {
+  background-color: antiquewhite;
+  float: left;
+  height: 100%;
+  width: 256px;
+}
+
+#content {
+  background-color: coral;
+  float: right;
+  height: 100%;
+  width: calc(100% - 256px);
+}
+
+#images {
+  background-color: aqua;
+  height: 60%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#description {
+  background-color: cornflowerblue;
+  height: 40%;
+}
+
 body {
-  margin: auto;
-  max-width: 1980px;
+  height: 100vh;
+}
+
+header {
+  background-color: crimson;
+  height: 10%;
+  padding: 30px;
+}
+
+main {
+  height: 80%;
+}
+
+footer {
+  background-color: darkmagenta;
+  height: 10%;
 }
 img {
-  max-width: 400px;
+  max-width: 18%;
 }

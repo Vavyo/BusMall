@@ -40,6 +40,7 @@ function Product(name, imgPath) {
   this.timesClicked = 0;
   this.element = document.createElement("img");
   this.element.src = imgPath;
+  this.element.addEventListener("click", productClick);
 }
 
 function getRandomInt(n) {
@@ -66,9 +67,14 @@ function getRandomProducts(n) {
 
 function populateProducts() {
   const randomProducts = getRandomProducts(3);
-  const imageSection = document.getElementById("productImages");
+  const imageSection = document.getElementById("images");
   imageSection.innerHTML = "";
   for (const product of randomProducts) {
     imageSection.appendChild(product.element);
+    product.timesShown++;
   }
+}
+
+function productClick(event) {
+  console.log(event);
 }
