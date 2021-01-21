@@ -1,4 +1,7 @@
-body{
-  margin:auto;
-  max-width: 1980;
+body {
+  margin: auto;
+  max-width: 1980px;
+}
+img {
+  max-width: 400px;
 }
