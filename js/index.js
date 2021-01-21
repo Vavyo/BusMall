@@ -24,7 +24,7 @@ const productImages = [
 ];
 
 const allProducts = [];
-var randomProducts = [];
+var currentProducts = [];
 var imageElements = document.getElementsByTagName("img");
 var totalClicks = 0;
 var sampleSize = 25;
@@ -59,9 +59,14 @@ function removeRandom(arr) {
   return ele;
 }
 function getRandomProducts(n) {
-  // to skip writing a for loop -Calvin Hall
   const possibilities = [];
-  for (let i = 0; i < allProducts.length; i++) {
+  outer: for (let i = 0; i < allProducts.length; i++) {
+    for (let j = 0; j < currentProducts.length; j++) {
+      if (currentProducts[j] === allProducts[i]) {
+        continue outer;
+      }
+    }
+
     possibilities.push(allProducts[i]);
   }
   const products = [];
@@ -72,10 +77,10 @@ function getRandomProducts(n) {
 }
 
 function populateProducts() {
-  randomProducts = getRandomProducts(3);
-  for (let i = 0; i < randomProducts.length; i++) {
-    imageElements[i].src = randomProducts[i].img;
-    randomProducts[i].timesShown++;
+  currentProducts = getRandomProducts(3);
+  for (let i = 0; i < currentProducts.length; i++) {
+    imageElements[i].src = currentProducts[i].img;
+    currentProducts[i].timesShown++;
   }
 }
 
@@ -83,11 +88,12 @@ function productClick(event) {
   if (totalClicks < sampleSize) {
     totalClicks++;
     console.log(totalClicks);
-    randomProducts[event.srcElement.id].timesClicked++;
+    currentProducts[event.srcElement.id].timesClicked++;
     populateProducts();
   } else {
     for (let i = 0; i < imageElements.length; i++) {
       imageElements[i].removeEventListener("click", productClick);
+      document.getElementById("showResults").style.display = "block";
     }
   }
 }
@@ -107,5 +113,44 @@ function showResults() {
     );
     node.appendChild(textnode);
     results.appendChild(node);
+    updateChart();
   }
+}
+
+function updateChart() {
+  var names = [];
+  var votes = [];
+  var shown = [];
+  for (let i = 0; i < allProducts.length; i++) {
+    names.push(allProducts[i].name);
+    votes.push(allProducts[i].timesClicked);
+    shown.push(allProducts[i].timesShown);
+  }
+  var ctx = document.getElementById("chart");
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: "bar",
+
+    // The data for our dataset
+    data: {
+      labels: names,
+      datasets: [
+        {
+          label: "votes",
+          backgroundColor: "#ffffff",
+          borderColor: "#99aab5",
+          data: votes,
+        },
+        {
+          label: "shown",
+          backgroundColor: "#7289da",
+          borderColor: "#99aab5",
+          data: shown,
+        },
+      ],
+    },
+
+    // Configuration options go here
+    options: {},
+  });
 }
